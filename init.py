@@ -45,23 +45,74 @@ class ImageToPDFConverter:
         self.setup_ui()
         
     def setup_ui(self):
-        # Header
-        header_frame = tk.Frame(self.root, bg="#2c3e50", height=100)
+        # Fixed header (outside scrollable area)
+        header_frame = tk.Frame(self.root, bg="#2c3e50", height=70)
         header_frame.pack(fill=tk.X)
         header_frame.pack_propagate(False)
-        
-        title_label = tk.Label(
-            header_frame, 
-            text="IMAGE TO PDF CONVERTER", 
-            font=("Arial", 22, "bold"),
+        tk.Label(
+            header_frame,
+            text="IMAGE TO PDF CONVERTER",
+            font=("Arial", 20, "bold"),
             bg="#2c3e50",
             fg="white"
-        )
-        title_label.pack(pady=30)
+        ).pack(pady=16)
         
-        # Main content
-        content_frame = tk.Frame(self.root, padx=20, pady=20)
-        content_frame.pack(fill=tk.BOTH, expand=True)
+        # Main content (scrollable)
+        # Container holds a canvas + vertical scrollbar. Inside the canvas we place a real content frame.
+        content_container = tk.Frame(self.root)
+        content_container.pack(fill=tk.BOTH, expand=True)
+
+        canvas = tk.Canvas(content_container, highlightthickness=0)
+        vscroll = tk.Scrollbar(content_container, orient=tk.VERTICAL, command=canvas.yview)
+        canvas.configure(yscrollcommand=vscroll.set)
+
+        vscroll.pack(side=tk.RIGHT, fill=tk.Y)
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        # The actual content frame that will hold all widgets
+        content_frame = tk.Frame(canvas, padx=20, pady=20)
+        content_window = canvas.create_window((0, 0), window=content_frame, anchor="nw")
+
+        # Ensure scrollregion tracks content size changes
+        def _on_frame_configure(event=None):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        content_frame.bind("<Configure>", _on_frame_configure)
+
+        # Make canvas window width follow the container width
+        def _on_canvas_configure(event):
+            # Stretch the inner frame to the canvas width
+            canvas.itemconfigure(content_window, width=event.width)
+
+        canvas.bind("<Configure>", _on_canvas_configure)
+
+        # Mouse wheel support (Windows/macOS)
+        def _on_mousewheel(event):
+            delta = 0
+            if hasattr(event, 'delta') and event.delta:
+                delta = int(-1 * (event.delta / 120))
+            if delta:
+                canvas.yview_scroll(delta, "units")
+
+        # Mouse wheel support (Linux)
+        def _on_mousewheel_linux(event):
+            if event.num == 4:
+                canvas.yview_scroll(-1, "units")
+            elif event.num == 5:
+                canvas.yview_scroll(1, "units")
+
+        def _bind_wheel(_):
+            canvas.bind_all("<MouseWheel>", _on_mousewheel)
+            canvas.bind_all("<Button-4>", _on_mousewheel_linux)
+            canvas.bind_all("<Button-5>", _on_mousewheel_linux)
+
+        def _unbind_wheel(_):
+            canvas.unbind_all("<MouseWheel>")
+            canvas.unbind_all("<Button-4>")
+            canvas.unbind_all("<Button-5>")
+
+        content_frame.bind("<Enter>", _bind_wheel)
+        content_frame.bind("<Leave>", _unbind_wheel)
         
         # Mode Selection
         mode_frame = tk.LabelFrame(
@@ -315,7 +366,7 @@ class ImageToPDFConverter:
         
         # Create a StringVar for the display path
         self.display_output_path = tk.StringVar(
-            value=f'{self.output_folder.get()}\\{datetime.now().strftime("%Y-%m-%d")}'
+            value=f'{self.output_folder.get().replace("\\", "/")}/{datetime.now().strftime("%Y-%m-%d")}'
         )
         
         tk.Entry(
@@ -959,6 +1010,50 @@ class ImageToPDFConverter:
 
 
 if __name__ == "__main__":
+    # Prevent multiple instances (simple PID file lock)
+    import tempfile, atexit, sys
+    LOCK_PATH = os.path.join(tempfile.gettempdir(), "convert_img_pdf.lock")
+    def _cleanup_lock():
+        try:
+            if os.path.exists(LOCK_PATH):
+                os.remove(LOCK_PATH)
+        except Exception:
+            pass
+
+    if os.path.exists(LOCK_PATH):
+        try:
+            with open(LOCK_PATH, "r") as f:
+                pid_str = f.read().strip()
+            pid = int(pid_str) if pid_str.isdigit() else None
+        except Exception:
+            pid = None
+
+        still_running = False
+        if pid:
+            try:
+                os.kill(pid, 0)
+                still_running = True
+            except Exception:
+                still_running = False
+        if still_running:
+            # Show a small notice and exit
+            tk.Tk().withdraw()
+            messagebox.showinfo("Already Running", "Aplikasi sudah berjalan. Tutup aplikasi yang sedang berjalan sebelum membuka yang baru.")
+            sys.exit(0)
+        else:
+            # Stale lock; remove
+            try:
+                os.remove(LOCK_PATH)
+            except Exception:
+                pass
+
+    try:
+        with open(LOCK_PATH, "w") as f:
+            f.write(str(os.getpid()))
+        atexit.register(_cleanup_lock)
+    except Exception:
+        pass
+
     root = tk.Tk()
     app = ImageToPDFConverter(root)
     root.mainloop()

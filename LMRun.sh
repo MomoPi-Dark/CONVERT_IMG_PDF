@@ -16,6 +16,28 @@ ERROR="${RED}[ERROR]${NC}"
 WARN="${YELLOW}[WARN]${NC}"
 SUCCESS="${GREEN}[SUCCESS]${NC}"
 
+# Single instance (prevent multiple runs of launcher)
+LOCK_DIR="$SCRIPT_DIR/.run.lock"
+if mkdir "$LOCK_DIR" 2>/dev/null; then
+    trap 'rm -rf "$LOCK_DIR"' EXIT
+else
+    echo -e "${WARN} Another instance of the launcher is already running."
+    exit 1
+fi
+
+# Also prevent launching if the Python app is already running (parity with Windows batch)
+APP_LOCK="${TMPDIR:-/tmp}/convert_img_pdf.lock"
+if [ -f "$APP_LOCK" ]; then
+    RUN_PID="$(cat "$APP_LOCK" 2>/dev/null || true)"
+    if [[ "$RUN_PID" =~ ^[0-9]+$ ]] && kill -0 "$RUN_PID" 2>/dev/null; then
+        echo -e "${WARN} Application is already running (PID $RUN_PID). Close it first."
+        exit 0
+    else
+        # Stale lock file; remove it
+        rm -f "$APP_LOCK" 2>/dev/null || true
+    fi
+fi
+
 # Venv paths
 VENV_ROOT=".venv"
 VENV_SCRIPTS="$VENV_ROOT/bin"
@@ -47,6 +69,10 @@ if sys.version_info < (3, 8):
 EOF
 
 delete_venv() {
+    if [ ! -d "$VENV_ROOT" ]; then
+        return
+    fi
+
     echo -e "${INFO} Deleting existing virtual environment..."
     rm -rf "$VENV_ROOT"
 }
@@ -85,7 +111,6 @@ pip install -r requirements.txt >/dev/null 2>&1 || pip install -r requirements.t
 echo -e "${INFO} ${YELLOW}Checking for system tkinter...${NC}"
 if ! python3 -c "import tkinter" 2>/dev/null; then
     echo -e "${YELLOW}System tkinter not found. Attempting to install...${NC}"
-    
     if command -v apt-get &> /dev/null; then
         echo -e "${INFO} ${GREEN}Installing tkinter via apt (Ubuntu/Debian)...${NC}"
         sudo apt-get update && sudo apt-get install -y python3-tk

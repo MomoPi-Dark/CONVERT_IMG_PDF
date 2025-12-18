@@ -35,6 +35,27 @@ echo.
 
 echo %INFO% Initializing environment...
 
+:: Prevent launching if the app is already running (checked via Python lock file)
+@REM set "APP_LOCK=%TEMP%\convert_img_pdf.lock"
+@REM if exist "%APP_LOCK%" (
+@REM     set "RUN_PID="
+@REM     set /p RUN_PID=<"%APP_LOCK%"
+@REM     set "TASKLINE="
+@REM     if defined RUN_PID (
+@REM         for /f "usebackq tokens=* delims=" %%L in (`tasklist /FI "PID eq %RUN_PID%" /FO CSV /NH 2^>nul`) do set "TASKLINE=%%~L"
+@REM     )
+@REM     if defined TASKLINE (
+@REM         rem If TASKLINE does not start with INFO:, a process exists with this PID
+@REM         set "_HDR=!TASKLINE:~0,5!"
+@REM         if /I not "!_HDR!"=="INFO:" (
+@REM             echo %WARN% Application is already running (PID %RUN_PID%). Close it first.
+@REM             exit /b 0
+@REM         )
+@REM     )
+@REM     rem Stale lock; remove
+@REM     del "%APP_LOCK%" >nul 2>nul
+@REM )
+
 :: Detect Python 3.8+
 set "PY_CMD="
 
@@ -67,13 +88,20 @@ if errorlevel 1 (
 
 :: Ensure venv + dependencies
 if not exist "%VENV_PY%" (
-    echo %WARN% Virtual environment not found
+    echo %ERROR% Virtual environment setup failed!
+    call :delete_venv || exit /b 1
     call :create_venv || exit /b 1
 )
 
 if not exist "%DEPS_MARKER%" (
     echo %WARN% Dependencies not installed
     call :install_deps || exit /b 1
+) else (
+    rem Optionally ensure updated requirements are present without forcing every run
+    for /f "usebackq tokens=* delims=" %%R in ("requirements.txt") do (
+        rem Touch marker if requirements file is newer/changed is complex; users can delete marker to force reinstall
+        rem Keeping as-is for performance.
+    )
 )
 
 :: Run application (USE VENV PYTHON!!)
@@ -88,6 +116,13 @@ if not "%ERR%"=="0" (
 )
 
 exit /b 0
+
+:delete_venv
+if not exist "%VENV_ROOT%" (
+    exit /b 0
+)
+echo %INFO% Deleting existing virtual environment...
+rmdir /s /q "%VENV_ROOT%"
 
 :: Create virtual environment
 :create_venv
