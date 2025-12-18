@@ -1,0 +1,115 @@
+=======================================
+   IMAGE TO PDF CONVERTER
+   INSTALLATION & RUNNING GUIDE
+=======================================
+
+REQUIREMENTS:
+- Python 3.x (Python 3.8 atau lebih tinggi)
+- pip (package installer untuk Python)
+- Windows (untuk menjalankan .bat files)
+
+=======================================
+   INSTALLATION
+=======================================
+
+1. Pastikan Python sudah terinstall:
+   - Buka Command Prompt dan ketik: python --version
+   - Jika tidak terinstall, download dari: https://www.python.org/
+
+2. Navigasi ke folder project:
+   - Buka Command Prompt
+   - Ketik: cd path\ke\folder\CONVERT_IMG_PDF
+
+3. Virtual environment dan dependencies akan diinstall otomatis:
+   - Pilih salah satu opsi di bawah
+   - Script akan membuat .venv dan install requirements.txt
+
+=======================================
+   CARA MENJALANKAN
+=======================================
+
+OPSI 1: GUI MODE (Recommended untuk user)
+-----------------------------------------
+Gunakan file: run_gui.bat
+
+Langkah:
+1. Double-click file "run_gui.bat"
+   ATAU
+   Buka Command Prompt dan ketik: run_gui.bat
+
+2. Tunggu proses setup (jika pertama kali)
+3. GUI window akan terbuka otomatis
+
+Keuntungan:
+- Interface yang user-friendly
+- Mudah untuk dipilih folder input/output
+- Bisa preview hasil sebelum convert
+
+
+OPSI 2: COMMAND LINE MODE (Untuk automation)
+---------------------------------------------
+Gunakan file: run_script.bat
+
+Langkah:
+1. Buka Command Prompt di folder project
+2. Ketik: run_script.bat
+
+3. Ikuti instruksi yang muncul di Command Prompt
+
+Keuntungan:
+- Bisa di-automate dalam batch processing
+- Bisa custom path via command prompt
+- Lebih ringan dari GUI
+
+=======================================
+   TROUBLESHOOTING
+=======================================
+
+MASALAH 1: "Python is not recognized"
+Solusi:
+- Pastikan Python sudah terinstall
+- Tambahkan Python ke PATH system:
+  * Control Panel → System → Advanced System Settings
+  * Environment Variables → Path → Edit
+  * Tambah: C:\Users\YourName\AppData\Local\Programs\Python\Python311
+  * Restart Command Prompt
+
+MASALAH 2: "pip is not recognized"
+Solusi:
+- Pastikan pip terinstall dengan: python -m pip --version
+- Jika tidak ada, install dengan: python -m ensurepip --upgrade
+
+MASALAH 3: "requirements.txt not found"
+Solusi:
+- Pastikan file requirements.txt ada di folder project
+- Jangan hapus file ini
+
+MASALAH 4: Virtual environment error
+Solusi:
+- Delete folder .venv di project folder
+- Jalankan run_gui.bat atau run_script.bat lagi
+- Script akan buat virtual environment baru
+
+=======================================
+   FOLDER STRUCTURE
+=======================================
+
+Expected default folders:
+
+input/          - Letakkan gambar/image di sini
+output/         - Hasil PDF akan disimpan di sini
+
+Note: Jika folder tidak ada, script akan membuat otomatis
+      atau Anda bisa custom path saat menjalankan
+
+=======================================
+   NOTES
+=======================================
+
+- Virtual environment akan dibuat di folder .venv (hidden)
+- Jangan hapus folder .venv kecuali ingin reset dependencies
+- File requirements.txt berisi semua library yang dibutuhkan
+- Pertama kali run akan lebih lama (setup dependencies)
+- Kali berikutnya akan lebih cepat karena dependencies sudah ada
+
+=======================================
