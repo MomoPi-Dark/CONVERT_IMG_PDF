@@ -305,9 +305,14 @@ class ImageToPDFConverter:
         output_path_frame = tk.Frame(output_info_frame)
         output_path_frame.pack(fill=tk.X)
         
+        # Create a StringVar for the display path
+        self.display_output_path = tk.StringVar(
+            value=f'{self.output_folder.get()}/{datetime.now().strftime("%Y-%m-%d")}'
+        )
+        
         tk.Entry(
             output_path_frame, 
-            textvariable=self.output_folder, 
+            textvariable=self.display_output_path, 
             font=("Arial", 10),
             state="readonly"
         ).pack(side=tk.LEFT, fill=tk.X, expand=True, ipady=4)
@@ -395,6 +400,8 @@ class ImageToPDFConverter:
         )
         if folder:
             self.output_folder.set(folder)
+            # Update display path with new folder and current date
+            self.display_output_path.set(f'{folder}/{datetime.now().strftime("%Y-%m-%d")}')
     
     def on_mode_change(self):
         """Switch mode dan reset previous selection"""
