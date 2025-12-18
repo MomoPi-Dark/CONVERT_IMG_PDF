@@ -455,12 +455,12 @@ class ImageToPDFConverter:
     def browse_output(self):
         folder = filedialog.askdirectory(
             title="Pilih Lokasi Penyimpanan PDF",
-            initialdir=self.output_folder.get()
+            initialdir=self.output_folder.get().replace("\\", "/")
         )
         if folder:
             self.output_folder.set(folder)
             # Update display path with new folder and current date
-            self.display_output_path.set(f'{folder}\\{datetime.now().strftime("%Y-%m-%d")}')
+            self.display_output_path.set(f'{folder}/{datetime.now().strftime("%Y-%m-%d")}')
     
     def on_mode_change(self):
         """Switch mode dan reset previous selection"""
