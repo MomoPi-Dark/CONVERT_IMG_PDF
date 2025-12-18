@@ -9,16 +9,16 @@
 
 ### Installation & Running
 
-#### GUI Mode (Recommended)
+#### GUI Mode
 
 ```bash
 run_gui.bat
 ```
 
-#### Command Line Mode
+Or use the recommended launcher:
 
 ```bash
-run_script.bat
+WRun.bat
 ```
 
 ### Notes
@@ -52,21 +52,21 @@ python3 --version
 ```bash
 cd CONVERT_IMG_PDF
 chmod +x run_gui.sh
-chmod +x run_convert.sh
 ```
 
 #### Step 3: Running the Application
 
-**GUI Mode (Recommended):**
+**GUI Mode:**
 
 ```bash
 ./run_gui.sh
 ```
 
-**Command Line Mode:**
+Or use the recommended launcher:
 
 ```bash
-./run_convert.sh
+chmod +x LMRun.sh
+./LMRun.sh
 ```
 
 ### Troubleshooting macOS
@@ -80,11 +80,10 @@ brew install python3
 # Or download from python.org
 ```
 
-#### Problem: "Permission denied" when running .sh script
+#### Problem: "Permission denied" when running .sh script in macOS
 
 ```bash
 chmod +x run_gui.sh
-chmod +x run_convert.sh
 ```
 
 #### Problem: Module not found (pillow, imageio)
@@ -132,21 +131,21 @@ python3 --version
 ```bash
 cd CONVERT_IMG_PDF
 chmod +x run_gui.sh
-chmod +x run_convert.sh
 ```
 
 #### Step 3: Running the Application
 
-**GUI Mode (Recommended):**
+**GUI Mode:**
 
 ```bash
 ./run_gui.sh
 ```
 
-**Command Line Mode:**
+Or use the recommended launcher:
 
 ```bash
-./run_convert.sh
+chmod +x LMRun.sh
+./LMRun.sh
 ```
 
 ### Troubleshooting Linux
@@ -181,11 +180,10 @@ sudo apt-get install python3-venv
 ./run_gui.sh
 ```
 
-#### Problem: "Permission denied" when running .sh script
+#### Problem: "Permission denied" when running .sh script in Linux
 
 ```bash
 chmod +x run_gui.sh
-chmod +x run_convert.sh
 ```
 
 #### Problem: Tkinter not found (GUI won't start)
@@ -202,13 +200,12 @@ sudo dnf install python3-tkinter
 
 ## 🌐 Cross-Platform Comparison
 
-| Feature     | Windows        | macOS            | Linux            |
-| ----------- | -------------- | ---------------- | ---------------- |
-| GUI Mode    | run_gui.bat    | ./run_gui.sh     | ./run_gui.sh     |
-| CLI Mode    | run_script.bat | ./run_convert.sh | ./run_convert.sh |
-| Virtual Env | Automatic      | Automatic        | Automatic        |
-| Python      | python         | python3          | python3          |
-| Shell       | CMD/PowerShell | bash/zsh         | bash/sh          |
+| Feature     | Windows        | macOS      | Linux      |
+| ----------- | -------------- | ---------- | ---------- |
+| GUI Mode    | WRun.bat       | ./LMRun.sh | ./LMRun.sh |
+| Virtual Env | Automatic      | Automatic  | Automatic  |
+| Python      | python         | python3    | python3    |
+| Shell       | CMD/PowerShell | bash/zsh   | bash/sh    |
 
 ---
 
@@ -234,11 +231,7 @@ source .venv/bin/activate
 # 4. Install dependencies
 pip install -r requirements.txt
 
-# 5. Run application
-# GUI Mode
-python init_gui.py
-
-# CLI Mode
+# 5. Run GUI application
 python init.py
 ```
 

@@ -48,22 +48,6 @@ Keuntungan:
 - Bisa preview hasil sebelum convert
 
 
-OPSI 2: COMMAND LINE MODE (Untuk automation)
----------------------------------------------
-Gunakan file: run_script.bat
-
-Langkah:
-1. Buka Command Prompt di folder project
-2. Ketik: run_script.bat
-
-3. Ikuti instruksi yang muncul di Command Prompt
-
-Keuntungan:
-- Bisa di-automate dalam batch processing
-- Bisa custom path via command prompt
-- Lebih ringan dari GUI
-
-
 >> macOS & LINUX <<
 
 OPSI 1: GUI MODE (Recommended)
@@ -85,17 +69,6 @@ Note untuk Linux:
 - Script akan auto-detect OS (Ubuntu/Debian/Fedora/CentOS)
 - Akan otomatis install python3-tk jika diperlukan
 - Password sudo diperlukan untuk install tkinter
-
-OPSI 2: COMMAND LINE MODE
------------------------------------------
-Gunakan file: run_convert.sh
-
-Langkah:
-1. Buka Terminal di folder project
-2. Ketik: chmod +x run_convert.sh (pertama kali saja)
-3. Ketik: ./run_convert.sh
-
-4. Ikuti instruksi yang muncul di Terminal
 
 =======================================
    TROUBLESHOOTING

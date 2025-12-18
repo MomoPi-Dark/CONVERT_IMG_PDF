@@ -1,6 +1,6 @@
 # Image to PDF Converter
 
-Aplikasi untuk mengkonversi gambar (image) ke format PDF dengan mudah. Mendukung dua mode operasi: GUI (Graphical User Interface) dan Command Line Interface.
+Aplikasi untuk mengkonversi gambar (image) ke format PDF dengan mudah. Dilengkapi dengan interface GUI yang user-friendly dan mendukung berbagai format gambar.
 
 ## 📋 Daftar Isi
 
@@ -14,7 +14,7 @@ Aplikasi untuk mengkonversi gambar (image) ke format PDF dengan mudah. Mendukung
 
 ## ✨ Fitur
 
-### GUI Mode (`run_gui.bat`)
+### GUI Mode
 
 - ✅ Interface yang user-friendly dan intuitif
 - ✅ Pemilihan folder/file yang mudah dengan file browser
@@ -25,14 +25,6 @@ Aplikasi untuk mengkonversi gambar (image) ke format PDF dengan mudah. Mendukung
 - ✅ Progress bar real-time
 - ✅ Validasi input otomatis
 - ✅ Notifikasi status dan error handling
-
-### Command Line Mode (`run_script.bat`)
-
-- ✅ Mode automation untuk batch processing
-- ✅ Custom input/output path via command prompt
-- ✅ Progress tracking dengan detail
-- ✅ Otomatis process subfolder (opsional)
-- ✅ Logging untuk setiap conversion
 
 ### Supported Formats
 
@@ -100,23 +92,14 @@ Jika belum terinstall, download dari [python.org](https://www.python.org/downloa
 **Windows:**
 
 ```bash
-# GUI Mode
-run_gui.bat
-
-# CLI Mode
-run_script.bat
+WRun.bat
 ```
 
 **macOS/Linux:**
 
 ```bash
-# GUI Mode
-chmod +x run_gui.sh
-./run_gui.sh
-
-# CLI Mode
-chmod +x run_convert.sh
-./run_convert.sh
+chmod +x LMRun.sh
+./LMRun.sh
 ```
 
 Script akan otomatis:
@@ -143,6 +126,9 @@ source .venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Run GUI application
+python init.py
 ```
 
 ## 💻 Cara Penggunaan
@@ -170,56 +156,22 @@ pip install -r requirements.txt
 
 5. File PDF akan tersimpan di folder output yang dipilih
 
-### Opsi 2: Command Line Mode
-
-**Langkah:**
-
-1. Jalankan CLI application:
-
-   - **Windows**: `run_script.bat`
-   - **macOS/Linux**: `./run_convert.sh`
-
-2. Program akan meminta input:
-
-   - **Input folder**: Ketik path folder yang berisi gambar
-   - **Output folder**: Ketik path folder untuk output PDF
-   - **Process subfolders**: Tanya apakah ingin process subfolder (y/n)
-
-3. Proses conversion akan dimulai otomatis
-
-4. File PDF akan tersimpan dengan struktur folder original
-
-**Contoh Input (Windows):**
-
-```
-Input folder (default: input): C:\Users\YourName\Pictures
-Output folder (default: output): C:\Users\YourName\Downloads
-Process subfolders? (y/n): y
-```
-
-**Contoh Input (macOS/Linux):**
-
-```
-Input folder (default: input): /Users/YourName/Pictures
-Output folder (default: output): /Users/YourName/Downloads
-Process subfolders? (y/n): y
-```
+6. Tutup aplikasi dengan klik tombol X atau Close
 
 ## 📁 Struktur Project
 
 ```
 CONVERT_IMG_PDF/
-├── init.py                 # Command line script
-├── init_gui.py             # GUI application (Tkinter)
+├── init.py                 # GUI application (Tkinter)
 ├── requirements.txt        # Python dependencies
 │
 ├── Windows Scripts:
-│   ├── run_script.bat       # Batch untuk CLI mode
-│   └── run_gui.bat          # Batch untuk GUI mode
+│   ├── WRun.bat             # Launcher untuk GUI mode (recommended)
+│   └── run_gui.bat          # Launcher untuk GUI mode
 │
 ├── Unix/Linux/macOS Scripts:
-│   ├── run_convert.sh       # Shell script untuk CLI mode
-│   └── run_gui.sh           # Shell script untuk GUI mode
+│   ├── LMRun.sh             # Launcher untuk GUI mode (recommended)
+│   └── run_gui.sh           # Launcher untuk GUI mode
 │
 ├── Dokumentasi:
 │   ├── README.md            # Dokumentasi project (English & Bahasa)
@@ -324,7 +276,6 @@ rm -rf .venv
 
 ```bash
 chmod +x run_gui.sh
-chmod +x run_convert.sh
 ```
 
 #### Linux: Tkinter not found (GUI error)
@@ -416,17 +367,6 @@ Untuk masalah teknis:
 1. Cek file `NOTE.txt` untuk quick troubleshooting
 2. Baca section Troubleshooting di README ini
 3. Pastikan semua dependencies sudah diinstall dengan benar
-
-## 🎯 Roadmap
-
-Fitur yang akan datang:
-
-- [x] Support Linux dan macOS
-- [ ] Web interface
-- [ ] Batch scheduling
-- [ ] Image compression options
-- [ ] OCR integration
-- [ ] Cloud storage support
 
 ## 📚 Documentation
 
