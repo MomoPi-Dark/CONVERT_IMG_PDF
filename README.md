@@ -18,17 +18,16 @@ Aplikasi untuk mengkonversi gambar (image) ke format PDF dengan mudah. Dilengkap
 
 - ✅ Interface yang user-friendly dan intuitif
 - ✅ Pemilihan folder/file yang mudah dengan file browser
-- ✅ Preview gambar sebelum di-convert
 - ✅ Dukungan batch processing (folder/subfolder)
 - ✅ Custom output PDF name
-- ✅ Merge multiple images/PDFs menjadi satu file
+- ✅ Merge multiple images menjadi satu file
 - ✅ Progress bar real-time
 - ✅ Validasi input otomatis
 - ✅ Notifikasi status dan error handling
 
 ### Supported Formats
 
-- **Input**: JPG, JPEG, PNG, BMP, GIF, TIFF, WebP
+- **Input**: PNG, JPG, JPEG, GIF, BMP, TIFF, HEIC
 - **Output**: PDF
 
 ## 📦 Requirements
@@ -39,6 +38,7 @@ Aplikasi untuk mengkonversi gambar (image) ke format PDF dengan mudah. Dilengkap
 - **Dependencies**:
   - `pillow` - Image processing
   - `imageio` - Image to PDF conversion
+  - `pillow-heif` - HEIC/HEIF support (otomatis terpasang oleh launcher)
 
 ### OS-Specific Requirements
 
@@ -139,14 +139,13 @@ python init.py
 
 1. Jalankan GUI application:
 
-   - **Windows**: Double-click `run_gui.bat`
-   - **macOS/Linux**: `./run_gui.sh`
+   - **Windows**: Double-click `WRun.bat`
+   - **macOS/Linux**: ` ./LMRun.sh`
 
 2. GUI window akan terbuka dengan beberapa opsi:
 
    - **Select Input Folder**: Pilih folder yang berisi gambar
    - **Select Output Folder**: Pilih folder untuk menyimpan PDF
-   - **Preview Mode**: Lihat preview gambar sebelum convert
    - **Merge Files**: Gabung multiple images menjadi satu PDF
    - **Custom Name**: Beri nama custom untuk output PDF
 
@@ -166,12 +165,10 @@ CONVERT_IMG_PDF/
 ├── requirements.txt        # Python dependencies
 │
 ├── Windows Scripts:
-│   ├── WRun.bat             # Launcher untuk GUI mode (recommended)
-│   └── run_gui.bat          # Launcher untuk GUI mode
+│   └── WRun.bat          # Launcher untuk GUI mode
 │
 ├── Unix/Linux/macOS Scripts:
-│   ├── LMRun.sh             # Launcher untuk GUI mode (recommended)
-│   └── run_gui.sh           # Launcher untuk GUI mode
+│   └── LMRun.sh           # Launcher untuk GUI mode
 │
 ├── Dokumentasi:
 │   ├── README.md            # Dokumentasi project (English & Bahasa)
@@ -180,28 +177,10 @@ CONVERT_IMG_PDF/
 │   └── LICENSE              # Project license
 │
 ├── Folders:
-│   ├── input/               # Default input folder (gambar)
-│   ├── output/              # Default output folder (PDF hasil)
 │   └── .venv/               # Virtual environment (dibuat otomatis)
 ```
 
 ## 🔧 Konfigurasi
-
-### Default Folders
-
-Aplikasi menggunakan folder default:
-
-- **Input**: `./input`
-- **Output**: `./output`
-
-Folder akan dibuat otomatis jika tidak ada.
-
-### Custom Folders
-
-Anda bisa:
-
-- **GUI Mode**: Pilih custom folder di file browser
-- **CLI Mode**: Input custom path saat program berjalan
 
 ### Virtual Environment
 
@@ -256,11 +235,11 @@ python -m ensurepip --upgrade  # Reinstall pip if needed
 ```bash
 # Windows
 rmdir /s .venv
-run_gui.bat
+WRun.bat
 
 # macOS/Linux
 rm -rf .venv
-./run_gui.sh
+./LMRun.sh
 ```
 
 #### Problem: "requirements.txt not found"
@@ -275,7 +254,7 @@ rm -rf .venv
 #### macOS: "Permission denied" when running .sh
 
 ```bash
-chmod +x run_gui.sh
+chmod +x LMRun.sh
 ```
 
 #### Linux: Tkinter not found (GUI error)
@@ -295,7 +274,7 @@ sudo dnf install python3-tkinter
 sudo apt-get install python3-venv
 
 # Then retry
-./run_gui.sh
+./LMRun.sh
 ```
 
 ### Conversion Issues
@@ -304,7 +283,7 @@ sudo apt-get install python3-venv
 
 **Solusi:**
 
-1. Pastikan format gambar supported (JPG, PNG, BMP, GIF, TIFF, WebP)
+1. Pastikan format gambar supported (PNG, JPG, JPEG, GIF, BMP, TIFF, HEIC)
 2. Pastikan folder output punya write permission
 3. Coba dengan gambar lain untuk test
 4. Cek error message di console
@@ -339,8 +318,13 @@ Untuk troubleshooting detail per OS, lihat [SETUP.md](SETUP.md)
 
 ```
 pillow          # Python Imaging Library untuk image processing
-imageio         # Library untuk image to PDF conversion
+imageio         # General image IO (fallback for HEIC)
+pillow-heif     # HEIC/HEIF support for Pillow
 ```
+
+#### "Already running" warning
+
+Jika Anda mencoba membuka aplikasi dua kali, launcher/aplikasi akan menampilkan peringatan bahwa aplikasi sudah berjalan. Tutup jendela aplikasi yang ada sebelum menjalankan lagi.
 
 ### Virtual Environment
 

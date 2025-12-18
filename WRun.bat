@@ -124,6 +124,8 @@ if not exist "%VENV_ROOT%" (
 echo %INFO% Deleting existing virtual environment...
 rmdir /s /q "%VENV_ROOT%"
 
+exit /b 0
+
 :: Create virtual environment
 :create_venv
 echo %INFO% Creating virtual environment...

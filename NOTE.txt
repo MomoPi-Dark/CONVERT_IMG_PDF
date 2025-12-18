@@ -6,7 +6,7 @@
 REQUIREMENTS:
 - Python 3.x (Python 3.8 atau lebih tinggi)
 - pip (package installer untuk Python)
-- Windows (untuk menjalankan .bat files)
+- Windows/macOS/Linux (launcher tersedia untuk semua OS)
 
 =======================================
    INSTALLATION
@@ -30,39 +30,39 @@ REQUIREMENTS:
 
 >> WINDOWS <<
 
-OPSI 1: GUI MODE (Recommended untuk user)
+GUI MODE (Recommended untuk user)
 -----------------------------------------
-Gunakan file: run_gui.bat
+Gunakan file: WRun.bat
 
 Langkah:
-1. Double-click file "run_gui.bat"
+1. Double-click file "WRun.bat"
    ATAU
-   Buka Command Prompt dan ketik: run_gui.bat
+   Buka Command Prompt dan ketik: WRun.bat
 
 2. Tunggu proses setup (jika pertama kali)
 3. GUI window akan terbuka otomatis
 
 Keuntungan:
 - Interface yang user-friendly
-- Mudah untuk dipilih folder input/output
-- Bisa preview hasil sebelum convert
+- Mudah memilih folder input/output
+- Dapat menggabungkan beberapa foto menjadi satu PDF
 
 
 >> macOS & LINUX <<
 
-OPSI 1: GUI MODE (Recommended)
+GUI MODE (Recommended)
 -----------------------------------------
-Gunakan file: run_gui.sh
+Gunakan file: LMRun.sh
 
 Langkah:
 1. Buka Terminal di folder project
-2. Ketik: chmod +x run_gui.sh (pertama kali saja)
-3. Ketik: ./run_gui.sh
+2. Ketik: chmod +x LMRun.sh (pertama kali saja)
+3. Ketik: ./LMRun.sh
 
 4. Script akan otomatis:
    - Install tkinter jika belum ada (perlu sudo password)
    - Membuat virtual environment
-   - Install dependencies
+   - Install dependencies (termasuk pillow-heif untuk dukungan HEIC)
    - Launch GUI
 
 Note untuk Linux:
@@ -96,8 +96,13 @@ Solusi:
 MASALAH 4: Virtual environment error
 Solusi:
 - Delete folder .venv di project folder
-- Jalankan run_gui.bat atau run_script.bat lagi
+- Jalankan WRun.bat (Windows) atau ./LMRun.sh (macOS/Linux) lagi
 - Script akan buat virtual environment baru
+
+MASALAH 5: "Aplikasi sudah berjalan" (Already running)
+Solusi:
+- Tutup jendela aplikasi yang sedang berjalan, lalu jalankan lagi launchernya.
+- Mekanisme single-instance mencegah aplikasi dibuka dua kali secara tidak sengaja.
 
 =======================================
    FOLDER STRUCTURE

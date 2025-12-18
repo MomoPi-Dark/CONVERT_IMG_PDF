@@ -12,12 +12,6 @@
 #### GUI Mode
 
 ```bash
-run_gui.bat
-```
-
-Or use the recommended launcher:
-
-```bash
 WRun.bat
 ```
 
@@ -51,94 +45,84 @@ python3 --version
 
 ```bash
 cd CONVERT_IMG_PDF
-chmod +x run_gui.sh
+chmod +x LMRun.sh
 ```
 
 #### Step 3: Running the Application
 
+#### Step 2: Make launcher executable
+
+**GUI Mode:**
+
+chmod +x LMRun.sh
+./LMRun.sh
+
+````
+#### Step 3: Running the Application
+
+```bash
+./LMRun.sh
+````
+
+brew install python3
+
+#### Step 2: Make launcher executable
+
+# Or download from python.org
+
+````
+chmod +x LMRun.sh
+#### Problem: "Permission denied" when running .sh script in macOS
+
 **GUI Mode:**
 
 ```bash
-./run_gui.sh
-```
-
-Or use the recommended launcher:
-
-```bash
-chmod +x LMRun.sh
 ./LMRun.sh
-```
-
-### Troubleshooting macOS
-
-#### Problem: "Command not found: python3"
-
-```bash
-# Install Python via Homebrew
-brew install python3
-
-# Or download from python.org
-```
-
-#### Problem: "Permission denied" when running .sh script in macOS
-
-```bash
-chmod +x run_gui.sh
-```
-
-#### Problem: Module not found (pillow, imageio)
-
-```bash
-# Remove virtual environment and reinstall
-rm -rf .venv
-./run_gui.sh  # This will reinstall everything
-```
+````
 
 ---
 
 ## 🐧 Linux (Ubuntu/Debian/Fedora)
 
+chmod +x LMRun.sh
+
 ### Requirements
 
-- Python 3.8+
+./LMRun.sh # This will reinstall everything
+
 - Terminal
 
-### Installation
+#### Step 2: Make launcher executable
 
 #### Step 1: Install Python & Dependencies
 
+chmod +x LMRun.sh
 **Ubuntu/Debian:**
 
-```bash
-sudo apt-get update
-sudo apt-get install python3 python3-pip python3-venv
-
-# Verify installation
-python3 --version
-```
-
-**Fedora:**
+**GUI Mode:**
 
 ```bash
-sudo dnf install python3 python3-pip
-
-# Verify installation
-python3 --version
+./LMRun.sh
 ```
 
+# Then try again
+
+./LMRun.sh
+
+````
 #### Step 2: Make shell scripts executable
-
+chmod +x LMRun.sh
 ```bash
 cd CONVERT_IMG_PDF
-chmod +x run_gui.sh
-```
+./LMRun.sh  # Linux/macOS
+````
 
 #### Step 3: Running the Application
 
 **GUI Mode:**
 
 ```bash
-./run_gui.sh
+./LMRun.sh
 ```
 
 Or use the recommended launcher:
@@ -177,13 +161,13 @@ sudo dnf install python3-pip
 sudo apt-get install python3-venv
 
 # Then try again
-./run_gui.sh
+./LMRun.sh
 ```
 
 #### Problem: "Permission denied" when running .sh script in Linux
 
 ```bash
-chmod +x run_gui.sh
+chmod +x LMRun.sh
 ```
 
 #### Problem: Tkinter not found (GUI won't start)
@@ -274,8 +258,8 @@ rm -rf .venv  # Linux/macOS
 rmdir /s .venv  # Windows
 
 # Reinstall dengan menjalankan script
-./run_gui.sh  # Linux/macOS
-run_gui.bat  # Windows
+./LMRun.sh  # Linux/macOS
+WRun.bat  # Windows
 ```
 
 ---
