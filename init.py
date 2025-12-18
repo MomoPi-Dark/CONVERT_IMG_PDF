@@ -7,6 +7,14 @@ import shutil
 from datetime import datetime
 import threading
 
+# Enable HEIC/HEIF support via pillow-heif when available
+try:
+    from pillow_heif import register_heif_opener  # type: ignore
+    register_heif_opener()
+    HEIF_SUPPORTED = True
+except Exception:
+    HEIF_SUPPORTED = False
+
 
 class ImageToPDFConverter:
     def __init__(self, root):
@@ -825,11 +833,18 @@ class ImageToPDFConverter:
                     file_name = os.path.basename(file_path)
                     self.update_status(f"Loading: {file_name}", "#3498db")
                     
-                    if file_name.lower().endswith(".heic"):
-                        img = imageio.imread(file_path)
-                        img = Image.fromarray(img).convert("RGB")
-                    else:
+                    if file_name.lower().endswith(".heic") and HEIF_SUPPORTED:
+                        # Prefer Pillow with pillow-heif if available
                         img = Image.open(file_path).convert("RGB")
+                    else:
+                        # Fallback to PIL for common formats and imageio for HEIC when pillow-heif is unavailable
+                        if file_name.lower().endswith(".heic") and not HEIF_SUPPORTED:
+                            arr = imageio.imread(file_path)
+                            if getattr(arr, "size", 0) == 0:
+                                raise ValueError("Gagal membaca file HEIC (kosong). Coba konversi ke JPG/PNG atau pasang pillow-heif.")
+                            img = Image.fromarray(arr).convert("RGB")
+                        else:
+                            img = Image.open(file_path).convert("RGB")
                     
                     image_list.append(img)
                     
@@ -892,11 +907,16 @@ class ImageToPDFConverter:
                         counter += 1
                     
                     # Convert image
-                    if file_name.lower().endswith(".heic"):
-                        img = imageio.imread(file_path)
-                        img = Image.fromarray(img).convert("RGB")
-                    else:
+                    if file_name.lower().endswith(".heic") and HEIF_SUPPORTED:
                         img = Image.open(file_path).convert("RGB")
+                    else:
+                        if file_name.lower().endswith(".heic") and not HEIF_SUPPORTED:
+                            arr = imageio.imread(file_path)
+                            if getattr(arr, "size", 0) == 0:
+                                raise ValueError("Gagal membaca file HEIC (kosong). Coba konversi ke JPG/PNG atau pasang pillow-heif.")
+                            img = Image.fromarray(arr).convert("RGB")
+                        else:
+                            img = Image.open(file_path).convert("RGB")
                     
                     img.save(output_pdf_path)
                     converted_files.append(output_pdf_path)
@@ -918,10 +938,17 @@ class ImageToPDFConverter:
         self.custom_name.set("")
         
         if self.merge_files.get():
-            messagebox.showinfo(
-                "Success!", 
-                f"Semua foto berhasil digabung!\n\nFile: {os.path.basename(converted_files[0])}\nLokasi: {result_folder_with_date}"
-            )
+            if converted_files:
+                messagebox.showinfo(
+                    "Success!", 
+                    f"Semua foto berhasil digabung!\n\nFile: {os.path.basename(converted_files[0])}\nLokasi: {result_folder_with_date}"
+                )
+            else:
+                # No output produced (e.g., all inputs failed to load). Inform the user gracefully.
+                messagebox.showwarning(
+                    "Warning",
+                    "Tidak ada foto valid yang berhasil digabung. Pastikan file tidak rusak dan formatnya didukung (PNG/JPG/JPEG/GIF/BMP/TIFF/HEIC)."
+                )
         else:
             messagebox.showinfo(
                 "Success!", 

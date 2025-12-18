@@ -76,6 +76,11 @@ fi
 # Activate virtual environment
 source "$VENV_ACTIVATE"
 
+# Ensure dependencies are up to date each run (in case requirements changed)
+echo -e "${INFO} Ensuring Python dependencies..."
+pip install --upgrade pip >/dev/null 2>&1
+pip install -r requirements.txt >/dev/null 2>&1 || pip install -r requirements.txt
+
 # System-level tkinter check and installation (required for venv to inherit it)
 echo -e "${INFO} ${YELLOW}Checking for system tkinter...${NC}"
 if ! python3 -c "import tkinter" 2>/dev/null; then
