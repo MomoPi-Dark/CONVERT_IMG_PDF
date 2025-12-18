@@ -28,6 +28,8 @@ REQUIREMENTS:
    CARA MENJALANKAN
 =======================================
 
+>> WINDOWS <<
+
 OPSI 1: GUI MODE (Recommended untuk user)
 -----------------------------------------
 Gunakan file: run_gui.bat
@@ -60,6 +62,40 @@ Keuntungan:
 - Bisa di-automate dalam batch processing
 - Bisa custom path via command prompt
 - Lebih ringan dari GUI
+
+
+>> macOS & LINUX <<
+
+OPSI 1: GUI MODE (Recommended)
+-----------------------------------------
+Gunakan file: run_gui.sh
+
+Langkah:
+1. Buka Terminal di folder project
+2. Ketik: chmod +x run_gui.sh (pertama kali saja)
+3. Ketik: ./run_gui.sh
+
+4. Script akan otomatis:
+   - Install tkinter jika belum ada (perlu sudo password)
+   - Membuat virtual environment
+   - Install dependencies
+   - Launch GUI
+
+Note untuk Linux:
+- Script akan auto-detect OS (Ubuntu/Debian/Fedora/CentOS)
+- Akan otomatis install python3-tk jika diperlukan
+- Password sudo diperlukan untuk install tkinter
+
+OPSI 2: COMMAND LINE MODE
+-----------------------------------------
+Gunakan file: run_convert.sh
+
+Langkah:
+1. Buka Terminal di folder project
+2. Ketik: chmod +x run_convert.sh (pertama kali saja)
+3. Ketik: ./run_convert.sh
+
+4. Ikuti instruksi yang muncul di Terminal
 
 =======================================
    TROUBLESHOOTING

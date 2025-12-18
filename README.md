@@ -43,12 +43,33 @@ Aplikasi untuk mengkonversi gambar (image) ke format PDF dengan mudah. Mendukung
 
 - **Python**: 3.8 atau lebih tinggi
 - **pip**: Python package installer
-- **Windows**: OS Windows (batch scripts)
+- **OS**: Windows, macOS, atau Linux
 - **Dependencies**:
   - `pillow` - Image processing
   - `imageio` - Image to PDF conversion
 
+### OS-Specific Requirements
+
+**Windows:**
+
+- Command Prompt atau PowerShell
+- Batch file support (.bat)
+
+**macOS:**
+
+- Homebrew (optional, untuk install Python)
+- bash/zsh shell
+
+**Linux:**
+
+- bash/sh shell
+- Tkinter (untuk GUI mode)
+
 ## 🚀 Instalasi
+
+### Quick Start (Recommended)
+
+Untuk instruksi detail per OS, lihat [SETUP.md](SETUP.md)
 
 ### Step 1: Download/Clone Repository
 
@@ -63,26 +84,39 @@ cd CONVERT_IMG_PDF
 ### Step 2: Check Python Installation
 
 ```bash
+# Windows
 python --version  # Pastikan Python 3.8+
 pip --version     # Pastikan pip terinstall
+
+# macOS/Linux
+python3 --version
+pip3 --version
 ```
 
 Jika belum terinstall, download dari [python.org](https://www.python.org/downloads/)
 
-### Step 3: Automatic Setup (Recommended)
+### Step 3: Run the Application
 
-Cukup jalankan salah satu script di bawah, semua setup akan otomatis:
-
-**GUI Mode:**
+**Windows:**
 
 ```bash
+# GUI Mode
 run_gui.bat
+
+# CLI Mode
+run_script.bat
 ```
 
-**Command Line Mode:**
+**macOS/Linux:**
 
 ```bash
-run_script.bat
+# GUI Mode
+chmod +x run_gui.sh
+./run_gui.sh
+
+# CLI Mode
+chmod +x run_convert.sh
+./run_convert.sh
 ```
 
 Script akan otomatis:
@@ -96,12 +130,16 @@ Script akan otomatis:
 Jika ingin setup manual:
 
 ```bash
-# Buat virtual environment
-python -m venv .venv
+# Create virtual environment
+python -m venv .venv        # Windows
+python3 -m venv .venv       # macOS/Linux
 
 # Activate virtual environment
 # Windows:
 .venv\Scripts\activate
+
+# macOS/Linux:
+source .venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -113,11 +151,10 @@ pip install -r requirements.txt
 
 **Langkah:**
 
-1. Double-click `run_gui.bat` atau jalankan dari Command Prompt:
+1. Jalankan GUI application:
 
-   ```bash
-   run_gui.bat
-   ```
+   - **Windows**: Double-click `run_gui.bat`
+   - **macOS/Linux**: `./run_gui.sh`
 
 2. GUI window akan terbuka dengan beberapa opsi:
 
@@ -137,11 +174,10 @@ pip install -r requirements.txt
 
 **Langkah:**
 
-1. Buka Command Prompt di folder project:
+1. Jalankan CLI application:
 
-   ```bash
-   run_script.bat
-   ```
+   - **Windows**: `run_script.bat`
+   - **macOS/Linux**: `./run_convert.sh`
 
 2. Program akan meminta input:
 
@@ -153,11 +189,19 @@ pip install -r requirements.txt
 
 4. File PDF akan tersimpan dengan struktur folder original
 
-**Contoh Input:**
+**Contoh Input (Windows):**
 
 ```
 Input folder (default: input): C:\Users\YourName\Pictures
 Output folder (default: output): C:\Users\YourName\Downloads
+Process subfolders? (y/n): y
+```
+
+**Contoh Input (macOS/Linux):**
+
+```
+Input folder (default: input): /Users/YourName/Pictures
+Output folder (default: output): /Users/YourName/Downloads
 Process subfolders? (y/n): y
 ```
 
@@ -168,13 +212,25 @@ CONVERT_IMG_PDF/
 ├── init.py                 # Command line script
 ├── init_gui.py             # GUI application (Tkinter)
 ├── requirements.txt        # Python dependencies
-├── run_script.bat          # Windows batch untuk CLI mode
-├── run_gui.bat             # Windows batch untuk GUI mode
-├── run_convert.sh          # Shell script untuk Linux/Mac
-├── NOTE.txt                # Installation & running guide (Indonesian)
-├── README.md               # Dokumentasi project
-├── input/                  # Default input folder (gambar)
-└── output/                 # Default output folder (PDF hasil)
+│
+├── Windows Scripts:
+│   ├── run_script.bat       # Batch untuk CLI mode
+│   └── run_gui.bat          # Batch untuk GUI mode
+│
+├── Unix/Linux/macOS Scripts:
+│   ├── run_convert.sh       # Shell script untuk CLI mode
+│   └── run_gui.sh           # Shell script untuk GUI mode
+│
+├── Dokumentasi:
+│   ├── README.md            # Dokumentasi project (English & Bahasa)
+│   ├── NOTE.txt             # Installation guide (Bahasa Indonesia)
+│   ├── SETUP.md             # Setup guide per OS
+│   └── LICENSE              # Project license
+│
+├── Folders:
+│   ├── input/               # Default input folder (gambar)
+│   ├── output/              # Default output folder (PDF hasil)
+│   └── .venv/               # Virtual environment (dibuat otomatis)
 ```
 
 ## 🔧 Konfigurasi
@@ -203,9 +259,11 @@ Anda bisa:
 
 ## 🐛 Troubleshooting
 
-### Problem: "Python is not recognized"
+### General Issues
 
-**Solusi:**
+#### Problem: "Python is not recognized"
+
+**Windows Solusi:**
 
 1. Pastikan Python sudah terinstall
 2. Tambahkan Python ke PATH:
@@ -214,7 +272,23 @@ Anda bisa:
    - Tambah: `C:\Users\YourName\AppData\Local\Programs\Python\Python311\`
    - Restart Command Prompt
 
-### Problem: "pip is not recognized"
+**macOS Solusi:**
+
+```bash
+brew install python3
+```
+
+**Linux Solusi:**
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install python3
+
+# Fedora
+sudo dnf install python3
+```
+
+#### Problem: "pip is not recognized"
 
 **Solusi:**
 
@@ -223,22 +297,59 @@ python -m pip --version  # Check if pip exists
 python -m ensurepip --upgrade  # Reinstall pip if needed
 ```
 
-### Problem: Virtual environment error
+#### Problem: Virtual environment error
 
 **Solusi:**
 
-1. Delete folder `.venv`
-2. Jalankan `run_gui.bat` atau `run_script.bat` lagi
-3. Virtual environment baru akan dibuat otomatis
+```bash
+# Windows
+rmdir /s .venv
+run_gui.bat
 
-### Problem: "requirements.txt not found"
+# macOS/Linux
+rm -rf .venv
+./run_gui.sh
+```
+
+#### Problem: "requirements.txt not found"
 
 **Solusi:**
 
 - Pastikan file `requirements.txt` ada di folder project
 - Jangan hapus file ini
 
-### Problem: Gambar tidak ter-convert
+### Platform-Specific Issues
+
+#### macOS: "Permission denied" when running .sh
+
+```bash
+chmod +x run_gui.sh
+chmod +x run_convert.sh
+```
+
+#### Linux: Tkinter not found (GUI error)
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install python3-tk
+
+# Fedora
+sudo dnf install python3-tkinter
+```
+
+#### Linux: venv creation failed
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install python3-venv
+
+# Then retry
+./run_gui.sh
+```
+
+### Conversion Issues
+
+#### Problem: Gambar tidak ter-convert
 
 **Solusi:**
 
@@ -247,12 +358,16 @@ python -m ensurepip --upgrade  # Reinstall pip if needed
 3. Coba dengan gambar lain untuk test
 4. Cek error message di console
 
-### Problem: PDF hasil kualitas rendah
+#### Problem: PDF hasil kualitas rendah
 
 **Solusi:**
 
 - Kualitas PDF tergantung dari kualitas gambar original
 - Gunakan gambar dengan resolusi tinggi untuk hasil terbaik
+
+### More Help
+
+Untuk troubleshooting detail per OS, lihat [SETUP.md](SETUP.md)
 
 ## 📊 Performance
 
@@ -306,14 +421,21 @@ Untuk masalah teknis:
 
 Fitur yang akan datang:
 
-- [ ] Support Linux dan macOS
+- [x] Support Linux dan macOS
 - [ ] Web interface
 - [ ] Batch scheduling
 - [ ] Image compression options
 - [ ] OCR integration
 - [ ] Cloud storage support
 
+## 📚 Documentation
+
+- [README.md](README.md) - Project documentation (English & Bahasa)
+- [NOTE.txt](NOTE.txt) - Quick start guide (Bahasa Indonesia)
+- [SETUP.md](SETUP.md) - Detailed setup per OS
+
 ---
 
 **Last Updated**: December 2025  
-**Version**: 1.0
+**Version**: 1.1
+**Supported OS**: Windows, macOS, Linux
