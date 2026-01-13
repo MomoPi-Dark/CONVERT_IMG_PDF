@@ -364,9 +364,11 @@ class ImageToPDFConverter:
         output_path_frame = tk.Frame(output_info_frame)
         output_path_frame.pack(fill=tk.X)
         
-        # Create a StringVar for the display path
+        # Create a StringVar for the display path (avoid backslash issues on Windows)
+        output_path = self.output_folder.get()
+        date_str = datetime.now().strftime("%Y-%m-%d")
         self.display_output_path = tk.StringVar(
-            value=f'{self.output_folder.get().replace("\\", "/")}/{datetime.now().strftime("%Y-%m-%d")}'
+            value=os.path.join(output_path, date_str)
         )
         
         tk.Entry(
@@ -455,12 +457,12 @@ class ImageToPDFConverter:
     def browse_output(self):
         folder = filedialog.askdirectory(
             title="Pilih Lokasi Penyimpanan PDF",
-            initialdir=self.output_folder.get().replace("\\", "/")
+            initialdir=self.output_folder.get()
         )
         if folder:
             self.output_folder.set(folder)
             # Update display path with new folder and current date
-            self.display_output_path.set(f'{folder}/{datetime.now().strftime("%Y-%m-%d")}')
+            self.display_output_path.set(os.path.join(folder, datetime.now().strftime("%Y-%m-%d")))
     
     def on_mode_change(self):
         """Switch mode dan reset previous selection"""
